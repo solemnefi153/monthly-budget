@@ -26,34 +26,32 @@ def getSurname():
     surname = input('Enter surname: ')
     return surname
     
+def getItemsInbudget():
+    number = input('Enter number of items in budget: ')
+    return number
+
 def getItemName():
     itemName = input('Enter Item name: ')
     return itemName
 
 def getItemMonthlyExpense():
-    monthlyExpense = float(input('Enter Item 1 monthly amount: '))
+    monthlyExpense = float(input('Enter item  monthly amount: '))
     return monthlyExpense 
 
-def printReport(month, name, surname, ite1, exp1, ite2, exp2, ite3, exp3,
-                ite4, exp4, ite5, exp5):
+def printReport(month, name, surname, itemsInBudget):
 
     print('')
     print('{} Monthly Budget for {} {}'.format(month, name, surname))
     print('{:=^50}'.format(''))
     print('{:<20}{:>10}{:>20}'.format('Item' ,'Month', 'Year'))
     print('{:=^50}'.format(''))
-    print('{:<20}${:>9.2f}          ${:>9.2f}'
-          .format(ite1, exp1, (exp1 * 12)))
-    print('{:<20}${:>9.2f}          ${:>9.2f}'
-           .format(ite2, exp2, (exp2 * 12)))
-    print('{:<20}${:>9.2f}          ${:>9.2f}'
-          .format(ite3, exp3, (exp3 * 12)))
-    print('{:<20}${:>9.2f}          ${:>9.2f}'
-          .format(ite4, exp4, (exp4 * 12)))
-    print('{:<20}${:>9.2f}          ${:>9.2f}'
-          .format(ite5, exp5, (exp5 * 12)))
+    for item in itemsInBudget:
+        print('{:<20}${:>9.2f}          ${:>9.2f}'
+          .format(item[0], item[1], (float(item[1]) * 12)))
     print('{:=^50}'.format(''))
-    monthlyTotExp = sum([exp1, exp2, exp3, exp4, exp5])
+    monthlyTotExp = 0
+    for item in itemsInBudget:
+        monthlyTotExp += float(item[1])
     yearlyTotExp = monthlyTotExp * 12
     print('{:<20}${:>9.2f}          ${:>9.2f}'
           .format('Totals', monthlyTotExp, yearlyTotExp))
@@ -66,18 +64,14 @@ def main():
     month = getMonth()
     name = getFirstName()
     surname = getSurname()
-    ite1 = getItemName()
-    exp1 = getItemMonthlyExpense()
-    ite2 = getItemName()
-    exp2 = getItemMonthlyExpense()
-    ite3 = getItemName()
-    exp3 = getItemMonthlyExpense()
-    ite4 = getItemName()
-    exp4 = getItemMonthlyExpense()
-    ite5 = getItemName()
-    exp5 = getItemMonthlyExpense()
-    printReport(month, name, surname, ite1, exp1, ite2, exp2, ite3, exp3, ite4,
-                exp4, ite5, exp5)
+    items = getItemsInbudget()
+    itemsInBudget = []
+    for i in range(int(items)):
+        item_name = getItemName()
+        item_cost = getItemMonthlyExpense()
+        item = [item_name, item_cost]
+        itemsInBudget.append(item)
+    printReport(month, name, surname, itemsInBudget)
 
 
 main()
